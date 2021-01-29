@@ -1,0 +1,203 @@
+<CompuCell3D Revision="20180722" Version="3.7.8">
+   
+   <Potts>
+      <!-- Basic properties of CPM (GGH) algorithm -->
+      <Dimensions x="150" y="40" z="30"/>
+      <Steps>600</Steps>
+      <Temperature>10</Temperature>
+      <NeighborOrder>3</NeighborOrder>
+      <Boundary_x>Periodic</Boundary_x>
+   </Potts>
+   
+   <Plugin Name="CellType">
+      <!-- Listing all cell types in the simulation -->
+      <CellType TypeId="0" TypeName="Medium"/>
+      <CellType Freeze="" TypeId="1" TypeName="Below"/>
+      <CellType TypeId="2" TypeName="Leader"/>
+      <CellType TypeId="3" TypeName="Trailer"/>
+   </Plugin>
+   
+   <Plugin Name="Volume">
+      <VolumeEnergyParameters CellType="Below" LambdaVolume="2.0" TargetVolume="1000"/>
+      <VolumeEnergyParameters CellType="Leader" LambdaVolume="0.1" TargetVolume="905"/>
+      <VolumeEnergyParameters CellType="Trailer" LambdaVolume="0.1" TargetVolume="905"/>
+   </Plugin>
+   
+   
+   <Plugin Name="Surface">
+      <SurfaceEnergyParameters CellType="Below" LambdaSurface="2.0" TargetSurface="600"/>
+      <SurfaceEnergyParameters CellType="Leader" LambdaSurface="0.02" TargetSurface="0"/>     
+      <SurfaceEnergyParameters CellType="Trailer" LambdaSurface="0.02" TargetSurface="0"/>
+   </Plugin>
+   
+   <Plugin Name="CenterOfMass">
+   
+   
+        <!-- Module tracking center of mass of each cell -->
+   </Plugin>
+   <Plugin Name="NeighborTracker">
+    <!-- Module tracking neighboring cells of each cell -->
+   </Plugin>
+   
+   
+   <Plugin Name="BoundaryPixelTracker">
+   <!-- Module tracking boundary pixels of each cell -->
+   <NeighborOrder>1</NeighborOrder>
+   </Plugin>
+
+   <Plugin Name="ExternalPotential"/>
+   
+   <Plugin Name="Contact">
+      <Energy Type1="Medium" Type2="Below">20.0</Energy>
+      <Energy Type1="Medium" Type2="Leader">20.0</Energy>
+      <Energy Type1="Medium" Type2="Trailer">20.0</Energy>
+      <Energy Type1="Below" Type2="Leader">14.0</Energy>
+      <Energy Type1="Below" Type2="Trailer">15.0</Energy>
+      <Energy Type1="Leader" Type2="Trailer">16.0</Energy>
+      <NeighborOrder>3</NeighborOrder>
+   </Plugin>
+
+   <Plugin Name="Chemotaxis">
+      <Algorithm>Merks</Algorithm>
+      <ChemicalField Name="PROTRUSION_L" Source="DiffusionSolverFE">
+      </ChemicalField>
+      <ChemicalField Name="RETRACTION_L" Source="DiffusionSolverFE">
+      </ChemicalField>
+      <ChemicalField Name="PROTRUSION_T" Source="DiffusionSolverFE">
+      </ChemicalField>
+      <ChemicalField Name="RETRACTION_T" Source="DiffusionSolverFE">
+      </ChemicalField>
+   </Plugin>
+   
+   <Steppable Type="DiffusionSolverFE">  
+   <DiffusionField Name="PROTRUSION_L">
+      <DiffusionData>
+         <FieldName>PROTRUSION_L</FieldName>
+         <GlobalDiffusionConstant>0</GlobalDiffusionConstant>
+         <GlobalDecayConstant>0</GlobalDecayConstant>
+      </DiffusionData>
+      <BoundaryConditions>
+         <Plane Axis="X">
+            <Periodic/>
+         </Plane>
+         <Plane Axis="Y">
+            <ConstantDerivative PlanePosition="Min" Value="0.0"/>
+            <ConstantDerivative PlanePosition="Max" Value="0.0"/>
+         </Plane>
+         <Plane Axis="Z">
+            <ConstantDerivative PlanePosition="Min" Value="0.0"/>
+            <ConstantDerivative PlanePosition="Max" Value="0.0"/>
+         </Plane>
+      </BoundaryConditions>
+   </DiffusionField>
+   <DiffusionField Name="RETRACTION_L">
+      <DiffusionData>
+         <FieldName>RETRACTION_L</FieldName>
+         <GlobalDiffusionConstant>0</GlobalDiffusionConstant>
+         <GlobalDecayConstant>0</GlobalDecayConstant>
+      </DiffusionData>
+      <BoundaryConditions>
+         <Plane Axis="X">
+            <Periodic/>
+         </Plane>
+         <Plane Axis="Y">
+            <ConstantDerivative PlanePosition="Min" Value="0.0"/>
+            <ConstantDerivative PlanePosition="Max" Value="0.0"/>
+         </Plane>
+         <Plane Axis="Z">
+            <ConstantDerivative PlanePosition="Min" Value="0.0"/>
+            <ConstantDerivative PlanePosition="Max" Value="0.0"/>
+         </Plane>
+      </BoundaryConditions>
+   </DiffusionField>
+   <DiffusionField Name="PROTRUSION_T">
+      <DiffusionData>
+         <FieldName>PROTRUSION_T</FieldName>
+         <GlobalDiffusionConstant>0</GlobalDiffusionConstant>
+         <GlobalDecayConstant>0</GlobalDecayConstant>
+      </DiffusionData>
+      <BoundaryConditions>
+         <Plane Axis="X">
+            <Periodic/>
+         </Plane>
+         <Plane Axis="Y">
+            <ConstantDerivative PlanePosition="Min" Value="0.0"/>
+            <ConstantDerivative PlanePosition="Max" Value="0.0"/>
+         </Plane>
+         <Plane Axis="Z">
+            <ConstantDerivative PlanePosition="Min" Value="0.0"/>
+            <ConstantDerivative PlanePosition="Max" Value="0.0"/>
+         </Plane>
+      </BoundaryConditions>
+   </DiffusionField>
+   <DiffusionField Name="RETRACTION_T">
+      <DiffusionData>
+         <FieldName>RETRACTION_T</FieldName>
+         <GlobalDiffusionConstant>0</GlobalDiffusionConstant>
+         <GlobalDecayConstant>0</GlobalDecayConstant>
+      </DiffusionData>
+      <BoundaryConditions>
+         <Plane Axis="X">
+            <Periodic/>
+         </Plane>
+         <Plane Axis="Y">
+            <ConstantDerivative PlanePosition="Min" Value="0.0"/>
+            <ConstantDerivative PlanePosition="Max" Value="0.0"/>
+         </Plane>
+         <Plane Axis="Z">
+            <ConstantDerivative PlanePosition="Min" Value="0.0"/>
+            <ConstantDerivative PlanePosition="Max" Value="0.0"/>
+         </Plane>
+      </BoundaryConditions>
+   </DiffusionField>
+   </Steppable>
+
+
+   
+   
+   <Plugin Name="ConnectivityGlobal">
+      
+      <!-- Connectivity constraint applied to each cell. Energy penalty specifies how strong the constraint is. Penalty is specified for each type  -->
+      <!-- This constraint works in 2D and 3D on all type of lattices. It might be slowdown your simulation. For faster option - 2D and square lattice you may use Connectivity or ConnectivityLocalFlex -->
+      <!-- To speed up simulation comment out unnecessary constraints for types which don't need the constraint -->
+      <!-- By default we will always precheck connectivity BUT in simulations in which there is no risk of having unfragmented cell one can add this flag to speed up computations -->
+      <!-- To turn off precheck uncomment line below -->
+      <DoNotPrecheckConnectivity/>
+<!--       <Penalty Type="Below">1000000</Penalty> -->
+      <Penalty Type="Leader">1000000</Penalty>
+      <Penalty Type="Trailer">1000000</Penalty>
+   </Plugin>
+
+
+ 
+<!-- The following part is used to initialize all the cells from a known state-->   
+<!--    <Steppable Type="PIFInitializer"> -->
+<!--       <PIFName>\Simulation\twocell_noendo.piff</PIFName> -->
+<!--    </Steppable> -->
+   
+   
+<!-- The following part is used to initialize all the cells from the very begining-->
+   <Steppable Type="UniformInitializer">
+      <Region>
+         <BoxMin x="0" y="0" z="0"/>
+         <BoxMax x="149" y="39" z="9"/>
+         <Gap>0</Gap>
+         <Width>10</Width>
+         <Types>Below</Types>
+      </Region>
+      <Region>
+         <BoxMin x="15" y="15" z="10"/>
+         <BoxMax x="24" y="24" z="19"/>
+         <Gap>0</Gap>
+         <Width>10</Width>
+         <Types>Leader</Types>
+      </Region>
+      <Region>
+         <BoxMin x="5" y="15" z="10"/>
+         <BoxMax x="14" y="24" z="19"/>
+         <Gap>0</Gap>
+         <Width>10</Width>
+         <Types>Trailer</Types>
+      </Region>
+   </Steppable> 
+</CompuCell3D>
